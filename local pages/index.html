@@ -50,14 +50,16 @@
                         <h1>RideShare</h1>
                         <h3>Online app that allows you to find other people in one area, going to the same destination area. After being matched, you can live chat and arrange further details of the ride with them.</h3>
                         <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons">
-                            <li>
-                                <a href="register.html" class="btn btn-default btn-lg"><span class="network-name">Register</span></a>
-                            </li>
-                            <li>
-                                <a href="sign_in.html" class="btn btn-default btn-lg"><span class="network-name">Sign in</span></a>
-                            </li>
-                        </ul>
+                        <span id="signinButton">
+                            <span
+                                    class="g-signin"
+                                    data-callback="signinCallback"
+                                    data-clientid="683077495017-rcddi5bfi76bjdmd1bv154n9iip44o5i.apps.googleusercontent.com"
+                                    data-cookiepolicy="single_host_origin"
+                                    data-requestvisibleactions="http://schema.org/AddAction"
+                                    data-scope="https://www.googleapis.com/auth/plus.login">
+                            </span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -71,6 +73,9 @@
     
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
+    <!-- Google+ api -->
+    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
+    <script src="js/custom.js"></script>
 
 </body>
 
