@@ -124,9 +124,7 @@ app.get(path + '/ride', function(req, res) {
 
 // Get person by id
 app.get(path + '/person/:person_id', function(req, res) {
-    Person.findOne({
-        _id: req.params.person_id
-    }, function(err, person) {
+    Person.findById(req.params.person_id, function(err, person) {
         if (person) {
             res.json(person);
         } else {
@@ -137,9 +135,7 @@ app.get(path + '/person/:person_id', function(req, res) {
 
 // Get location by id
 app.get(path + '/location/:location_id', function(req, res) {
-    Location.findOne({
-        _id: req.params.location_id
-    }, function(err, location) {
+    Location.findById(req.params.location_id, function(err, location) {
         if (location) {
             res.json(location);
         } else {
@@ -150,9 +146,7 @@ app.get(path + '/location/:location_id', function(req, res) {
 
 // Get ride by id
 app.get(path + '/ride/:ride_id', function(req, res) {
-    Ride.findOne({
-        _id: req.params.ride_id
-    }, function(err, ride) {
+    Ride.findById(req.params.ride_id, function(err, ride) {
         if (ride) {
             res.json(ride);
         } else {
@@ -217,15 +211,91 @@ app.post(path + '/ride', function(req, res) {
     });
 });
 
-// Update
+// Update person
+// Google Id can not be updated
 app.put(path + '/person/:person_id', function(req, res) {
-
+    Person.findById(req.params.person_id, function(err, person) {
+        if (err) {
+            console.log(err);
+        }
+        if (typeof(req.body.familyName) !== 'undefined') {
+            person.familyName = req.body.familyName;
+        }
+        if (typeof(req.body.givenName) !== 'undefined') {
+            person.givenName = req.body.givenName;
+        }
+        if (typeof(req.body.imgUrl) !== 'undefined') {
+            person.imgUrl = req.body.imgUrl;
+        }
+        person.save(function(err, result) {
+            if (err) {
+                console.log(err);
+                res.send('ERROR');
+            } else {
+                res.json(result);
+            }
+        });
+    });
 });
 
+// Update location
 app.put(path + '/location/:location_id', function(req, res) {
-
+    Location.findById(req.params.location_id, function(err, location) {
+        if (err) {
+            console.log(err);
+        }
+        if (typeof(req.body.latitude) !== 'undefined') {
+            location.latitude = req.body.latitude;
+        }
+        if (typeof(req.body.longitude) !== 'undefined') {
+            location.longitude = req.body.longitude;
+        }
+        if (typeof(req.body.address) !== 'undefined') {
+            location.address = req.body.address;
+        }
+        location.save(function(err, result) {
+            if (err) {
+                console.log(err);
+                res.send('ERROR');
+            } else {
+                res.json(result);
+            }
+        });
+    });
 });
 
+// Update ride
+// Owner can not be updated
 app.put(path + '/ride/:ride_id', function(req, res) {
-
+    Ride.findById(req.params.ride_id, function(err, ride) {
+        if (err) {
+            console.log(err);
+        }
+        if (typeof(req.body.source) !== 'undefined') {
+            ride.source = req.body.source;
+        }
+        if (typeof(req.body.destination) !== 'undefined') {
+            ride.destination = req.body.destination;
+        }
+        if (typeof(req.body.dateTime) !== 'undefined') {
+            ride.dateTime = req.body.dateTime;
+        }
+        if (typeof(req.body.estimatedTime) !== 'undefined') {
+            ride.estimatedTime = req.body.estimatedTime;
+        }
+        if (typeof(req.body.notes) !== 'undefined') {
+            ride.notes = req.body.notes;
+        }
+        if (typeof(req.body.riders) !== 'undefined') {
+            ride.riders = req.body.riders;
+        }
+        ride.save(function(err, result) {
+            if (err) {
+                console.log(err);
+                res.send('ERROR');
+            } else {
+                res.json(result);
+            }
+        });
+    });
 });
