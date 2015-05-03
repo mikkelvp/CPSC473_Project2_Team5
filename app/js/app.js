@@ -1,4 +1,29 @@
- $(function () {
+var rideshareApp = angular.module('rideshareApp', ['ngRoute', 'rideshareControllers']);
+
+rideshareApp.config(['$routeProvider', function($routeProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: 'partials/home.html',
+      controller: 'HomeCtrl'
+    })
+    .when('/login', {
+      templateUrl: 'partials/login.html',
+      controller: 'LoginCtrl'
+    })
+    .when('/newRide', {
+      templateUrl: 'partials/newRide.html',
+      controller: 'NewRideCtrl'
+    })
+    .when('/404', {
+      templateUrl: 'partials/404.html',
+      controller: ''
+    })
+    .otherwise({
+      redirectTo: '/404'
+    });
+}]);
+
+$(function () {
     // click on current location likn 
     $("#showMyLocation").click(function (event) {
         event.preventDefault();
