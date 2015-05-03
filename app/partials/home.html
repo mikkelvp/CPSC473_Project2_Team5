@@ -1,37 +1,33 @@
-<!--
-
-<meta name="generator" content="Bootply" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
--->
 
 <div id="map-canvas"></div>
 <div class="container-fluid" id="main">
   <div class="row">
     <div class="col-xs-8 col-md-6">   
-      <h2>Welcome .. </h2>
-      
+      <h2>Welcome .. </h2> 
+      <p class="text-right">
+      <button type="submit" class="btn btn-success">New Ride</button>
+    </p> 
       <!-- item list -->
       <div class="panel panel-default">
         <div class="panel-heading"><a>Search for a ride</a></div>
       </div>
+      <div id="control">
       <p>
-         <input type='test' id="current" class="form-control">
-              <button id="showMyLocation">Current address</button>
-            <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,visualization&sensor=false"></script>
+         <input type='text' id="start" class="form-control">
+         <button id="showMyLocation">Current address</button>
       </p> 
       <p>
-              <input id="distenation"  class="form-control" name="distenation" size=100 placeholder="distenation"/>
+         <input id="end"  class="form-control" name="end" size=100 placeholder="distenation"/>
       </p>
       <p>
-              <input id="time"  class="form-control" name="time" size=100 placeholder="Depature Time"/>
+          <input type='time' id="time"  class="form-control" name="time"  placeholder="Depature Time"/>
       </p>
       <p>
-              <input id="sets"  class="form-control" name="setes" size=100 placeholder="Available Sets"/>
-      </p>
-      <p>
-      <button type="submit" id='search' class="btn btn-success">Search</button>
+         <button id="search" class="btn btn-success">Search</button>
      </p>
+     </div>
+         <div id="directions-panel"></div>
+
       <hr>
 
       <div class="panel panel-default">
@@ -42,10 +38,9 @@
       <!-- /item list -->      
 
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-8" id='map'>
-        </div>
-    
-  </div>
+     <div class="col-xs-12 col-sm-6 col-md-8" id='map'></div>
+    </div>
 </div>
+
 
 
