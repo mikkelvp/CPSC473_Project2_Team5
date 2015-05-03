@@ -14,7 +14,7 @@ html,body{
 }
 
 body{
-  	padding-top:50px; /*padding for navbar*/
+  	padding-top:50px; //padding for navbar
 }
 
 .navbar-custom .icon-bar {
@@ -61,4 +61,31 @@ body{
     top:50px;
     bottom:0;
     overflow:hidden;
+}
+
+#splashScreen {
+  background: url(../assets/bg.jpg) no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
 }

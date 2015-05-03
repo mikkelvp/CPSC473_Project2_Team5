@@ -1,9 +1,3 @@
-var main = function() {
-    
-    
-    
-};
-
 // Google+ Login function
 function signinCallback(authResult) {
     if (authResult['status']['signed_in']) {
@@ -30,6 +24,3 @@ function signinCallback(authResult) {
             console.log('Sign-in state: ' + authResult['error']);
     }
 }
-
-
-$(document).ready(main);
