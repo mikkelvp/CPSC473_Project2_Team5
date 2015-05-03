@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="rideshareApp">
+
+<head>
+  <meta charset="utf-8">
+  <title>RideShare</title>
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="css/landing-page.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+    <div class="container topnav">
+      <div class="navbar-header">
+        <a class="navbar-brand topnav" href="#">
+          <p class="text-uppercase">Rideshare</p>
+        </a>
+      </div>
+      <!-- Collect the nav service links -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#about">About</a>
+          </li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+
+  <div data-ng-view></div>
+
+  <!-- jQuery -->
+  <script src="js/jquery.js"></script>
+  <!-- Google+ api -->
+  <script src="https://apis.google.com/js/client:platform.js" async defer></script>
+  <!-- AngularJS -->
+  <script src="js/angular.min.js"></script>
+  <script src="js/angular-route.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <!-- Custom css code -->
+  <script src="js/custom.js"></script>
+
+</body>
+
+</html>
