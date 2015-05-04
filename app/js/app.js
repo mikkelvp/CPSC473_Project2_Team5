@@ -10,10 +10,6 @@ rideshareApp.config(['$routeProvider', function($routeProvider) {
       templateUrl: 'partials/home.html',
       controller: 'HomeCtrl'
     })
-    .when('/login', {
-      templateUrl: 'partials/login.html',
-      controller: 'LoginCtrl'
-    })
     .when('/newRide', {
       templateUrl: 'partials/newRide.html',
       controller: 'NewRideCtrl'
