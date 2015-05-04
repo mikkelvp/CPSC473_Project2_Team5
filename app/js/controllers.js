@@ -1,18 +1,17 @@
 var rideshareControllers = angular.module('rideshareControllers', []);
 
-rideshareControllers.controller('SplashScreenCtrl', ['$scope',
-  function ($scope) {    
+rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$location',
+  function ($scope, $location) {    
     $scope.processAuth = function (authResult) {
       // Do a check if authentication has been successful.
       if (authResult['access_token']) {
         // Successful sign in.
-
+        $location.path("/home");
         //     ...
         // Do some work [1].
         //     ...
       } else if (authResult['error']) {
         // Error while signing in.
-
         // Report error.
         console.log("Could not log in successfully.");
       }
