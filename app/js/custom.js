@@ -1,4 +1,5 @@
 // Google+ Login function
+/*
 function signinCallback(authResult) {
     if (authResult['status']['signed_in']) {
             // Update the app to reflect a signed in user
@@ -24,3 +25,4 @@ function signinCallback(authResult) {
             console.log('Sign-in state: ' + authResult['error']);
     }
 }
+*/
