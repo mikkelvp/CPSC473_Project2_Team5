@@ -1,41 +1,38 @@
-
 <div id="map-canvas"></div>
 <div class="container-fluid" id="main">
   <div class="row">
     <div class="col-xs-8 col-md-6">   
-      <h2>Welcome .. </h2> 
-      <p class="text-right">
-      <button type="submit" class="btn btn-success">New Ride</button>
-    </p> 
-      <!-- search form -->
+      <h2>Welcome .. </h2>  
+      <!-- item list -->
       <div class="panel panel-default">
         <div class="panel-heading"><a>Search for a ride</a></div>
       </div>
       <div id="control">
       <p>
-         <input type='text' id="start" class="form-control">
-         <button id="showMyLocation">Current address</button>
+         <input id="start" class="form-control" type="text" placeholder="Current Location">
+         <button id="showMyLocation" data-ng-click="showMyLocation()">{{ btnShowMyLocation }}</button>
       </p> 
       <p>
-         <input id="end"  class="form-control" name="end" size=100 placeholder="distenation"/>
+         <input id="end" class="form-control" size=100 placeholder="Destination">
       </p>
       <p>
-          <input type='time' id="time"  class="form-control" name="time"  placeholder="Depature Time"/>
+          <input id="time" class="form-control" type="time" placeholder="Departure Time">
       </p>
       <p>
-         <button id="search" class="btn btn-success">Search</button>
+         <button id="search" class="btn btn-success" data-ng-click="search()">{{ btnSearch }}</button>
      </p>
      </div>
          <div id="directions-panel"></div>
+
       <hr>
-         <!-- /search form -->
 
       <div class="panel panel-default">
         <div class="panel-heading"><a href="">Availabe rides</a></div>
       </div>
-      <hr>
       
-      <!-- Google map -->      
+      <hr>
+      <!-- /item list -->      
+
     </div>
      <div class="col-xs-12 col-sm-6 col-md-8" id='map'></div>
     </div>
