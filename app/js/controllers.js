@@ -41,10 +41,23 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$location',
     
   }]);
 
-rideshareControllers.controller('HomeCtrl', ['$scope',
+rideshareControllers.controller('HomeCtrl', ['$scope', '$location',
+  function ($scope, $location) {
+    $scope.goHome = function() {
+      $location.path("/home");
+    };
+    $scope.newRide = function() {
+      $location.path("/newRide");
+    };
+    $scope.availableRides = function() {
+      $location.path("/availableRides");
+    }
+  }]);
+
+rideshareControllers.controller('NewRideCtrl', ['$scope',
   function ($scope) {
     $scope.btnShowMyLocation = "Current Address";
-    $scope.btnSearch = "Search";
+    $scope.btnSearch = "Add Ride";
     
     $scope.map;
     $scope.$on("$viewContentLoaded", function() {
@@ -81,12 +94,12 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
           geocoder.geocode({
             'latLng': latLng
           },
-          function (results, status) {    
+          function (results, status) {
             for (var i = 0; i < results[0].address_components.length; i++) {
               var address = results[0].address_components[i];
               if (address.types[0] == "postal_code") {
                 $('#zipcode').html(address.long_name);
-                //$('#showMyLocation').hide(); // No need to hide the button after finding the current address
+                $('#showMyLocation').hide();
                 $("#start").val(results[0].formatted_address);
               }
             }
@@ -102,7 +115,7 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
     }; // showMyLocation
     
     $scope.search = function() {
-      $scope.btnSearch = "Searching...";
+      $scope.btnSearch = "Adding ride...";
       var directionsDisplay = new google.maps.DirectionsRenderer();
       var directionsService = new google.maps.DirectionsService();
 
@@ -112,6 +125,7 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
       };
       var map = new google.maps.Map($('#map')[0], mapOptions);
       directionsDisplay.setMap(map);
+      $('#directions-panel').empty();
       directionsDisplay.setPanel($('#directions-panel')[0]);
 
       var start = $('#start').val();
@@ -126,13 +140,8 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
           directionsDisplay.setDirections(response);
         }
         $scope.$apply(function() {
-          $scope.btnSearch = "Search";
+          $scope.btnSearch = "Add Ride";
         });
       });
     };
-  }]);
-
-rideshareControllers.controller('NewRideCtrl', ['$scope',
-  function ($scope) {
-    
   }]);
