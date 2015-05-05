@@ -144,4 +144,42 @@ rideshareControllers.controller('NewRideCtrl', ['$scope',
         });
       });
     };
+    
+    $scope.searching = function() {
+      $scope.btnSearching = "Searching...";
+      var directionsDisplay = new google.maps.DirectionsRenderer();
+      var directionsService = new google.maps.DirectionsService();
+
+      var mapOptions = {
+        zoom: 13,
+        center: new google.maps.LatLng(33.882322, -117.886511)
+      };
+      var map = new google.maps.Map($('#map')[0], mapOptions);
+      directionsDisplay.setMap(map);
+      $('#directions-panel').empty();
+      directionsDisplay.setPanel($('#directions-panel')[0]);
+
+      var start = $('#start').val();
+      var end = $('#end').val();
+      var request = {
+        origin:start,
+        destination:end,
+        travelMode: google.maps.TravelMode.DRIVING
+      };
+      directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(response);
+        }
+        $.post("api/getrides", function(response) {
+          response.rides.forEach(function(ride) {
+            if (ride.start == start && ride.end == end) {
+              $('#availableRides').append($('<button>').text(ride.owner));
+            }
+          });
+        });
+        $scope.$apply(function() {
+          $scope.btnSearch = "Search";
+        });
+      });
+    };
   }]);
