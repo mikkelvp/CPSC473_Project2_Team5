@@ -129,6 +129,25 @@ app.get(path + '/person/:person_id', function(req, res) {
             res.json(person);
         } else {
             console.log(err);
+            res.json({
+                err: err
+            });
+        }
+    });
+});
+
+// Get person by googleid
+app.get(path + '/person/googleid/:google_id', function(req, res) {
+    Person.findOne({
+        googleId: req.params.google_id
+    }, function(err, person) {
+        if (person) {
+            res.json(person);
+        } else {
+            console.log(err);
+            res.json({
+                err: 'not found'
+            });
         }
     });
 });
@@ -140,6 +159,9 @@ app.get(path + '/location/:location_id', function(req, res) {
             res.json(location);
         } else {
             console.log(err);
+            res.json({
+                err: err
+            });
         }
     });
 });
@@ -151,6 +173,9 @@ app.get(path + '/ride/:ride_id', function(req, res) {
             res.json(ride);
         } else {
             console.log(err);
+            res.json({
+                err: err
+            });
         }
     });
 });
@@ -211,32 +236,34 @@ app.post(path + '/ride', function(req, res) {
     });
 });
 
-// Update person
-// Google Id can not be updated
-app.put(path + '/person/:person_id', function(req, res) {
-    Person.findById(req.params.person_id, function(err, person) {
-        if (err) {
-            console.log(err);
-        }
-        if (typeof(req.body.familyName) !== 'undefined') {
-            person.familyName = req.body.familyName;
-        }
-        if (typeof(req.body.givenName) !== 'undefined') {
-            person.givenName = req.body.givenName;
-        }
-        if (typeof(req.body.imgUrl) !== 'undefined') {
-            person.imgUrl = req.body.imgUrl;
-        }
-        person.save(function(err, result) {
+// Update person // Google Id can not be updated 
+app.put(path + '/person/:person_id',
+    function(req, res) {
+        Person.findById(req.params.person_id, function(err, person) {
             if (err) {
                 console.log(err);
-                res.send('ERROR');
-            } else {
-                res.json(result);
             }
+            if (typeof(req.body.familyName) !== 'undefined') {
+                person.familyName = req.body.familyName;
+            }
+            if (typeof(req.body.givenName) !==
+                'undefined') {
+                person.givenName = req.body.givenName;
+            }
+            if (typeof(req.body.imgUrl) !== 'undefined') {
+                person.imgUrl =
+                    req.body.imgUrl;
+            }
+            person.save(function(err, result) {
+                if (err) {
+                    console.log(err);
+                    res.send('ERROR');
+                } else {
+                    res.json(result);
+                }
+            });
         });
     });
-});
 
 // Update location
 app.put(path + '/location/:location_id', function(req, res) {
