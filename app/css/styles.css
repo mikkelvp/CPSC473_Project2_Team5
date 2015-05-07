@@ -56,16 +56,6 @@ body {
     height: 100%;
 }
 
-#map-canvas {
-    width: 33.3333%;
-    height: calc(100% - 0);
-    position: absolute;
-    right: 16px;
-    top: 50px;
-    bottom: 0;
-    overflow: hidden;
-}
-
 #splashScreen {
     background: url(../assets/bg.jpg) no-repeat;
     background-size: cover;
@@ -103,4 +93,10 @@ body {
 
 .form-signin .form-control:focus {
     z-index: 2;
+}
+
+#map-canvas {
+    margin: 0;
+    padding: 0;
+    height: 500px;
 }
