@@ -207,6 +207,8 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
 							]*/
 					});
 				};
+			
+			$scope.$on("$viewContentLoaded", $scope.getDateTime());
 
 
         // function createLocationFromAddress(address, callback) {
