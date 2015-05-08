@@ -12,9 +12,12 @@
         <p>
             <input type="text" data-ng-model="destination" class="form-control" placeholder="Destination address">
         </p>
-        <p>
-            <input type="text" data-ng-model="dateTime" class="form-control" placeholder="Datetime">
-        </p>
+				<div class="input-group date" id="dateTimePicker">
+						<input type="text" class="form-control" />
+						<span class="input-group-addon" ng-click="getDateTime()">
+								<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+				</div>
         <p>
             <input type="text" data-ng-model="estimatedTime" class="form-control" placeholder="Estimated travel time">
         </p>
