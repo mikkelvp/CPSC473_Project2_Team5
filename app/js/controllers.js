@@ -140,6 +140,16 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$rootScope',
 
         $scope.search = function() {
             alert('Search pressed!');
+            var source, destination;
+            $rootScope.createLocationFromAddress($scope.source, function(location) {
+                source = location;
+                $rootScope.createLocationFromAddress($scope.destination, function(location) {
+                    destination = location;
+                    console.log('src: ' + source.address + ' dst: ' + destination.address);
+                });
+            });
+
+
         };
     }
 ]);
