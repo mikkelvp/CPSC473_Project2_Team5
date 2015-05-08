@@ -1,7 +1,7 @@
 var rideshareControllers = angular.module('rideshareControllers', []);
 
-rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$location', '$http',
-    function($scope, $location, $http) {
+rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$location', '$http',
+    function($scope, $rootScope, $location, $http) {
         $scope.processAuth = function(authResult) {
             // Do a check if authentication has been successful.
             if (authResult.access_token) {
@@ -16,6 +16,7 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$location', '$ht
                         $http.get('http://localhost:3000/api/person/googleid/' + user.id)
                             .success(function(data, status, headers, config) {
                                 console.log(data);
+                                $rootScope.user = data;
                                 if (data.err) {
                                     $http.post('/api/person/', {
                                             googleId: user.id,
@@ -24,6 +25,7 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$location', '$ht
                                         })
                                         .success(function(data, status, headers, config) {
                                             console.log(data);
+                                            $rootScope.user = data;
                                         });
                                 }
                             })
@@ -117,20 +119,21 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
     }
 ]);
 
-rideshareControllers.controller('NewRideCtrl', ['$scope', '$http',
-    function($scope, $http) {
+rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
+    function($scope, $rootScope, $http) {
         $scope.createRide = function() {
-            var source, destination;
+            var source, destination, googleid;
             createLocationFromAddress($scope.source, function(location) {
                 source = location;
                 createLocationFromAddress($scope.destination, function(location) {
                     destination = location;
+
                     $http.post('http://localhost:3000/api/ride/', {
                         source: source._id,
                         destination: destination._id,
                         dateTime: Date.now(),
                         availableSeats: $scope.availableSeats,
-                        owner: '553eae6b9f85555405000001' //$scope.person
+                        owner: $rootScope.user._id, //$scope.person
                     }).success(function(data, status, headers, config) {});
                 });
             });
