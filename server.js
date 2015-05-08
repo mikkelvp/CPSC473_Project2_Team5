@@ -326,3 +326,12 @@ app.put(path + '/ride/:ride_id', function(req, res) {
         });
     });
 });
+
+io.on("connection", function(socket){
+    console.log("User has connected");
+
+    socket.on("add ride", function(){
+        console.log("Adding ride");
+        socket.emit("new ride");
+    });
+});
