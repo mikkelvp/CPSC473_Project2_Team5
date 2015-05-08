@@ -7,8 +7,9 @@ var rideshareControllers = angular.module('rideshareControllers', [])
             }, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     $http.post('http://localhost:3000/api/location', {
-                            latitude: results[0].geometry.location.A,
-                            longitude: results[0].geometry.location.F,
+                            loc: [results[0].geometry.location.A,
+                                results[0].geometry.location.F
+                            ],
                             address: results[0].formatted_address
                         })
                         .success(function(data, status, headers, config) {
@@ -94,9 +95,9 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope',
 
         $scope.rides = [];
 
-        $http.get('http://localhost:3000/api/ride/').success(function(data, status, headers, config){
-            data.forEach(function(ride){
-                $scope.rides.push("Ride "+($scope.rides.length+1));
+        $http.get('http://localhost:3000/api/ride/').success(function(data, status, headers, config) {
+            data.forEach(function(ride) {
+                $scope.rides.push("Ride " + ($scope.rides.length + 1));
             });
         })
 
@@ -159,7 +160,7 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope',
 
         };
 
-        socket.on("add ride", function(){
+        socket.on("add ride", function() {
             // $scope.rides.push(ride);
             console.log("New ride added!");
         });
@@ -215,42 +216,19 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
                 });
             });
         };
-			
-				$scope.getDateTime = function () {
-					$("#dateTimePicker").datetimepicker({
-							defaultDate: "05/06/2015"/*,
-							disabledDates: [
-									moment("12/25/2013"),
-									new Date(2013, 11 - 1, 21),
-									"11/22/2013 00:53"
-							]*/
-					});
-				};
-			
-			$scope.$on("$viewContentLoaded", $scope.getDateTime());
 
+        $scope.getDateTime = function() {
+            $("#dateTimePicker").datetimepicker({
+                defaultDate: "05/06/2015"
+                    /*,
+                                  disabledDates: [
+                                      moment("12/25/2013"),
+                                      new Date(2013, 11 - 1, 21),
+                                      "11/22/2013 00:53"
+                                  ]*/
+            });
+        };
 
-        // function createLocationFromAddress(address, callback) {
-        //     var geocoder = new google.maps.Geocoder();
-        //     geocoder.geocode({
-        //         'address': address
-        //     }, function(results, status) {
-        //         if (status == google.maps.GeocoderStatus.OK) {
-        //             $http.post('http://localhost:3000/api/location', {
-        //                     latitude: results[0].geometry.location.A,
-        //                     longitude: results[0].geometry.location.F,
-        //                     address: results[0].formatted_address
-        //                 })
-        //                 .success(function(data, status, headers, config) {
-        //                     console.log(data);
-        //                     callback(data);
-        //                 })
-        //                 .error(function(data, status, headers, config) {
-        //                     console.log('err');
-        //                     return 'err';
-        //                 });
-        //         }
-        //     });
-        // }
+        $scope.$on("$viewContentLoaded", $scope.getDateTime());
     }
 ]);
