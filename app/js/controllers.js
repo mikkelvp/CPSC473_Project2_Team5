@@ -197,7 +197,16 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
             });
         };
 
-
+				$scope.getDateTime = function () {
+					$("#dateTimePicker").datetimepicker({
+							defaultDate: "05/06/2015"/*,
+							disabledDates: [
+									moment("12/25/2013"),
+									new Date(2013, 11 - 1, 21),
+									"11/22/2013 00:53"
+							]*/
+					});
+				};
 
 
         // function createLocationFromAddress(address, callback) {
