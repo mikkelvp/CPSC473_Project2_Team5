@@ -61,9 +61,18 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$location', '$ht
     }
 ]);
 
-rideshareControllers.controller('HomeCtrl', ['$scope',
-    function($scope) {
+rideshareControllers.controller('HomeCtrl', ['$scope', '$http',
+    function($scope, $http) {
+        var socket = io();
         var map;
+
+        $scope.rides = [];
+
+        $http.get('http://localhost:3000/api/ride/').success(function(data, status, headers, config){
+            data.forEach(function(ride){
+                $scope.rides.push("Ride "+($scope.rides.length+1));
+            });
+        })
 
         $scope.$on("$viewContentLoaded", function() {
             var mapCanvas = document.getElementById('map-canvas');
@@ -73,8 +82,6 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             map = new google.maps.Map(mapCanvas, mapOptions);
-
-
         });
 
         $scope.getCurrentDestination = function() {
@@ -114,11 +121,18 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
         $scope.search = function() {
             alert('Search pressed!');
         };
+
+        socket.on("add ride", function(){
+            // $scope.rides.push(ride);
+            console.log("New ride added!");
+        });
     }
 ]);
 
 rideshareControllers.controller('NewRideCtrl', ['$scope', '$http',
     function($scope, $http) {
+        var socket = io();
+
         $scope.createRide = function() {
             var source, destination;
             createLocationFromAddress($scope.source, function(location) {
@@ -131,7 +145,10 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$http',
                         dateTime: Date.now(),
                         availableSeats: $scope.availableSeats,
                         owner: '553eae6b9f85555405000001' //$scope.person
-                    }).success(function(data, status, headers, config) {});
+                    }).success(function(data, status, headers, config){
+                        console.log("NEW RIDE ADDED");
+                        socket.emit("add ride");
+                    });
                 });
             });
         };
@@ -158,9 +175,6 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$http',
                 });
             });
         };
-
-
-
 
         function createLocationFromAddress(address, callback) {
             var geocoder = new google.maps.Geocoder();
