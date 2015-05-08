@@ -1,4 +1,28 @@
-var rideshareControllers = angular.module('rideshareControllers', []);
+var rideshareControllers = angular.module('rideshareControllers', [])
+    .run(function($rootScope, $http) {
+        $rootScope.createLocationFromAddress = function(address, callback) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                'address': address
+            }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    $http.post('http://localhost:3000/api/location', {
+                            latitude: results[0].geometry.location.A,
+                            longitude: results[0].geometry.location.F,
+                            address: results[0].formatted_address
+                        })
+                        .success(function(data, status, headers, config) {
+                            console.log(data);
+                            callback(data);
+                        })
+                        .error(function(data, status, headers, config) {
+                            console.log('err');
+                            return 'err';
+                        });
+                }
+            });
+        };
+    });
 
 rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$location', '$http',
     function($scope, $rootScope, $location, $http) {
@@ -63,8 +87,8 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$l
     }
 ]);
 
-rideshareControllers.controller('HomeCtrl', ['$scope',
-    function($scope) {
+rideshareControllers.controller('HomeCtrl', ['$scope', '$rootScope',
+    function($scope, $rootScope) {
         var map;
 
         $scope.$on("$viewContentLoaded", function() {
@@ -111,7 +135,8 @@ rideshareControllers.controller('HomeCtrl', ['$scope',
                     }
                 });
             });
-        }; // showMyLocation
+        };
+
 
         $scope.search = function() {
             alert('Search pressed!');
@@ -123,9 +148,9 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
     function($scope, $rootScope, $http) {
         $scope.createRide = function() {
             var source, destination, googleid;
-            createLocationFromAddress($scope.source, function(location) {
+            $rootScope.createLocationFromAddress($scope.source, function(location) {
                 source = location;
-                createLocationFromAddress($scope.destination, function(location) {
+                $rootScope.createLocationFromAddress($scope.destination, function(location) {
                     destination = location;
 
                     $http.post('http://localhost:3000/api/ride/', {
@@ -133,7 +158,7 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
                         destination: destination._id,
                         dateTime: Date.now(),
                         availableSeats: $scope.availableSeats,
-                        owner: $rootScope.user._id, //$scope.person
+                        owner: $rootScope.user._id,
                     }).success(function(data, status, headers, config) {});
                 });
             });
@@ -165,27 +190,28 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
 
 
 
-        function createLocationFromAddress(address, callback) {
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({
-                'address': address
-            }, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    $http.post('http://localhost:3000/api/location', {
-                            latitude: results[0].geometry.location.A,
-                            longitude: results[0].geometry.location.F,
-                            address: results[0].formatted_address
-                        })
-                        .success(function(data, status, headers, config) {
-                            console.log(data);
-                            callback(data);
-                        })
-                        .error(function(data, status, headers, config) {
-                            console.log('err');
-                            return 'err';
-                        });
-                }
-            });
-        }
+        // function createLocationFromAddress(address, callback) {
+        //     var geocoder = new google.maps.Geocoder();
+        //     geocoder.geocode({
+        //         'address': address
+        //     }, function(results, status) {
+        //         if (status == google.maps.GeocoderStatus.OK) {
+        //             $http.post('http://localhost:3000/api/location', {
+        //                     latitude: results[0].geometry.location.A,
+        //                     longitude: results[0].geometry.location.F,
+        //                     address: results[0].formatted_address
+        //                 })
+        //                 .success(function(data, status, headers, config) {
+        //                     console.log(data);
+        //                     callback(data);
+        //                 })
+        //                 .error(function(data, status, headers, config) {
+        //                     console.log('err');
+        //                     return 'err';
+        //                 });
+        //         }
+        //     });
+        // }
+
     }
 ]);
