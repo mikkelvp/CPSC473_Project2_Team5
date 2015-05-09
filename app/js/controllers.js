@@ -1,25 +1,33 @@
 var rideshareControllers = angular.module('rideshareControllers', [])
     .run(function($rootScope, $http) {
-        $rootScope.createLocationFromAddress = function(address, callback) {
+        $rootScope.createLocationFromAddress = function(address, saveToDb, callback) {
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({
                 'address': address
             }, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
-                    $http.post('http://localhost:3000/api/location', {
+                    if (saveToDb === true) {
+                        $http.post('http://localhost:3000/api/location', {
+                                loc: [results[0].geometry.location.A,
+                                    results[0].geometry.location.F
+                                ],
+                                address: results[0].formatted_address
+                            })
+                            .success(function(data, status, headers, config) {
+                                console.log(data);
+                                callback(data);
+                            })
+                            .error(function(data, status, headers, config) {
+                                console.log('err');
+                                return 'err';
+                            });
+                    } else {
+                        callback({
                             loc: [results[0].geometry.location.A,
                                 results[0].geometry.location.F
-                            ],
-                            address: results[0].formatted_address
-                        })
-                        .success(function(data, status, headers, config) {
-                            console.log(data);
-                            callback(data);
-                        })
-                        .error(function(data, status, headers, config) {
-                            console.log('err');
-                            return 'err';
+                            ]
                         });
+                    }
                 }
             });
         };
@@ -37,7 +45,6 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$l
                     gapi.client.plus.people.get({
                         userId: 'me'
                     }).execute(function(user) {
-                        console.log(user);
                         $http.get('http://localhost:3000/api/person/googleid/' + user.id)
                             .success(function(data, status, headers, config) {
                                 console.log(data);
@@ -88,8 +95,8 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$l
     }
 ]);
 
-rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope',
-    function($scope, $http, $rootScope) {
+rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', '$location',
+    function($scope, $http, $rootScope, $location) {
         var socket = io();
         var map;
 
@@ -99,7 +106,7 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope',
             data.forEach(function(ride) {
                 $scope.rides.push("Ride " + ($scope.rides.length + 1));
             });
-        })
+        });
 
         $scope.$on("$viewContentLoaded", function() {
             var mapCanvas = document.getElementById('map-canvas');
@@ -147,13 +154,19 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope',
 
 
         $scope.search = function() {
-            alert('Search pressed!');
-            var source, destination;
-            $rootScope.createLocationFromAddress($scope.source, function(location) {
-                source = location;
-                $rootScope.createLocationFromAddress($scope.destination, function(location) {
-                    destination = location;
-                    console.log('src: ' + source.address + ' dst: ' + destination.address);
+            var query = {};
+            query.maxDistance = 2; // search radius in miles - $scope.maxDistance;
+            $rootScope.createLocationFromAddress($scope.source, false, function(location) {
+                query.source = location;
+                $rootScope.createLocationFromAddress($scope.destination, false, function(location) {
+                    query.destination = location;
+                    console.log('src: ' + query.source.loc + ' dst: ' + query.destination.loc);
+                    $http.post('/api/ride/find/', query)
+                        .success(function(data, status, headers, config) {
+                            console.log(data);
+                            $rootScope.searchResults = data;
+                            $location.path('/result');
+                        });
                 });
             });
 
@@ -174,9 +187,9 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
 
         $scope.createRide = function() {
             var source, destination, googleid;
-            $rootScope.createLocationFromAddress($scope.source, function(location) {
+            $rootScope.createLocationFromAddress($scope.source, true, function(location) {
                 source = location;
-                $rootScope.createLocationFromAddress($scope.destination, function(location) {
+                $rootScope.createLocationFromAddress($scope.destination, true, function(location) {
                     destination = location;
 
                     $http.post('http://localhost:3000/api/ride/', {
@@ -200,6 +213,7 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
             navigator.geolocation.getCurrentPosition(function(position) {
                 latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 geocoder.geocode({
+
                     latLng: latlng
                 }, function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
@@ -230,5 +244,12 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
         };
 
         $scope.$on("$viewContentLoaded", $scope.getDateTime());
+    }
+]);
+
+
+rideshareControllers.controller('searchResultsCtrl', ['$scope', '$http',
+    function($scope, $http) {
+
     }
 ]);
