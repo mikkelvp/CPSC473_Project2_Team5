@@ -1,0 +1,36 @@
+<div class="well">
+    <h1>Create new ride</h1>
+    <div class="row">
+        <p>
+            <div class="input-group">
+                <input type="text" data-ng-model="source" class="form-control" placeholder="Start address">
+                <span class="input-group-btn">
+        <button class="btn btn-default" data-ng-click="getCurrentDestination()">Current location</button>
+      </span>
+            </div>
+        </p>
+        <p>
+            <input type="text" data-ng-model="destination" class="form-control" placeholder="Destination address">
+        </p>
+				<p>
+					<div class="input-group date" id="dateTimePicker">
+							<input type="text" class="form-control" />
+							<span class="input-group-addon" ng-click="getDateTime()">
+									<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+					</div>
+				</p>
+        <p>
+            <input type="text" data-ng-model="estimatedTime" class="form-control" placeholder="Estimated travel time">
+        </p>
+        <p>
+            <input type="text" data-ng-model="availableSeats" class="form-control" placeholder="Available seats">
+        </p>
+        <p>
+            <input type="text" data-ng-model="notes" class="form-control" placeholder="Notes">
+        </p>
+        <p>
+            <button class="btn btn-success" data-ng-click="createRide()">Create ride</button>
+        </p>
+    </div>
+</div>

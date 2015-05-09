@@ -28,13 +28,9 @@ var PersonSchema = Schema({
 });
 
 var LocationSchema = Schema({
-    latitude: {
-        type: String,
-        required: true
-    },
-    longitude: {
-        type: String,
-        required: true
+    loc: {
+        type: [Number], // [<longitude>, <latitude>]
+        index: '2d' // create the geospatial index
     },
     address: String
 });
@@ -129,6 +125,25 @@ app.get(path + '/person/:person_id', function(req, res) {
             res.json(person);
         } else {
             console.log(err);
+            res.json({
+                err: err
+            });
+        }
+    });
+});
+
+// Get person by googleid
+app.get(path + '/person/googleid/:google_id', function(req, res) {
+    Person.findOne({
+        googleId: req.params.google_id
+    }, function(err, person) {
+        if (person) {
+            res.json(person);
+        } else {
+            console.log(err);
+            res.json({
+                err: 'not found'
+            });
         }
     });
 });
@@ -140,6 +155,9 @@ app.get(path + '/location/:location_id', function(req, res) {
             res.json(location);
         } else {
             console.log(err);
+            res.json({
+                err: err
+            });
         }
     });
 });
@@ -151,7 +169,69 @@ app.get(path + '/ride/:ride_id', function(req, res) {
             res.json(ride);
         } else {
             console.log(err);
+            res.json({
+                err: err
+            });
         }
+    });
+});
+
+// search for rides within a radius (maxDistance)
+// parameters: maxDistance, source (location object), destination (location object)
+app.post(path + '/ride/find/', function(req, res) {
+    var maxDistance = req.body.maxDistance || 4;
+    maxDistance /= 69.047; // convert from miles
+
+    // find locations near source location
+    Location.find({
+        loc: {
+            $near: req.body.source.loc,
+            $maxDistance: maxDistance
+        }
+    }).exec(function(err, locations) {
+        if (err) {
+            return res.json(500, err);
+        }
+
+        var sourceIds = [];
+        var destinationIds = [];
+
+        // push all source location _id's to array
+        locations.forEach(function(location) {
+            sourceIds.push(location._id);
+        });
+
+        // find locations near destination location
+        Location.find({
+            loc: {
+                $near: req.body.destination.loc,
+                $maxDistance: maxDistance
+            }
+        }).exec(function(err, locations) {
+            if (err) {
+                return res.json(500, err);
+            }
+
+            // push all destination location _id's to array
+            locations.forEach(function(location) {
+                destinationIds.push(location._id);
+            });
+
+            // find rides that contain the found source and destination _id's
+            Ride.find({
+                source: {
+                    $in: sourceIds
+                },
+                destination: {
+                    $in: destinationIds
+                }
+            }).populate('source').populate('destination').exec(function(err, docs) {
+                if (err) {
+                    return res.json(500, err);
+                }
+                res.json(docs);
+            });
+        });
     });
 });
 
@@ -175,8 +255,7 @@ app.post(path + '/person', function(req, res) {
 // Create new location
 app.post(path + '/location', function(req, res) {
     var newLocation = new Location({
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
+        loc: req.body.loc,
         address: req.body.address
     });
     newLocation.save(function(err, result) {
@@ -211,32 +290,34 @@ app.post(path + '/ride', function(req, res) {
     });
 });
 
-// Update person
-// Google Id can not be updated
-app.put(path + '/person/:person_id', function(req, res) {
-    Person.findById(req.params.person_id, function(err, person) {
-        if (err) {
-            console.log(err);
-        }
-        if (typeof(req.body.familyName) !== 'undefined') {
-            person.familyName = req.body.familyName;
-        }
-        if (typeof(req.body.givenName) !== 'undefined') {
-            person.givenName = req.body.givenName;
-        }
-        if (typeof(req.body.imgUrl) !== 'undefined') {
-            person.imgUrl = req.body.imgUrl;
-        }
-        person.save(function(err, result) {
+// Update person // Google Id can not be updated 
+app.put(path + '/person/:person_id',
+    function(req, res) {
+        Person.findById(req.params.person_id, function(err, person) {
             if (err) {
                 console.log(err);
-                res.send('ERROR');
-            } else {
-                res.json(result);
             }
+            if (typeof(req.body.familyName) !== 'undefined') {
+                person.familyName = req.body.familyName;
+            }
+            if (typeof(req.body.givenName) !==
+                'undefined') {
+                person.givenName = req.body.givenName;
+            }
+            if (typeof(req.body.imgUrl) !== 'undefined') {
+                person.imgUrl =
+                    req.body.imgUrl;
+            }
+            person.save(function(err, result) {
+                if (err) {
+                    console.log(err);
+                    res.send('ERROR');
+                } else {
+                    res.json(result);
+                }
+            });
         });
     });
-});
 
 // Update location
 app.put(path + '/location/:location_id', function(req, res) {
@@ -297,5 +378,14 @@ app.put(path + '/ride/:ride_id', function(req, res) {
                 res.json(result);
             }
         });
+    });
+});
+
+io.on("connection", function(socket) {
+    console.log("User has connected");
+
+    socket.on("add ride", function() {
+        console.log("Adding ride");
+        socket.emit("new ride");
     });
 });

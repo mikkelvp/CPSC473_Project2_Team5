@@ -1,0 +1,21 @@
+<div class="well">
+    <h1>Search results</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Start</th>
+                <th>Destination</th>
+                <th>Available seats</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="ride in searchResults">
+                <td>{{ ride.dateTime | date:'MM/dd h:mma' }}</td>
+                <td>{{ ride.source.address }}</td>
+                <td>{{ ride.destination.address }}</td>
+                <td>{{ ride.availableSeats }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
