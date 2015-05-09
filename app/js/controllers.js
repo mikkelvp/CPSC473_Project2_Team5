@@ -33,7 +33,6 @@ var rideshareControllers = angular.module('rideshareControllers', [])
         };
     });
 
-
 rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$location', '$http',
     function($scope, $rootScope, $location, $http) {
         $scope.processAuth = function(authResult) {
