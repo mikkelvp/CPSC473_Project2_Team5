@@ -31,6 +31,14 @@ var rideshareControllers = angular.module('rideshareControllers', [])
                 }
             });
         };
+
+        $rootScope.isLoggedIn = function() {
+            if (typeof($rootScope.user) !== 'undefined') {
+                return true;
+            } else {
+                return false;
+            }
+        };
     });
 
 rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$location', '$http',
@@ -39,8 +47,6 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$l
             // Do a check if authentication has been successful.
             if (authResult.access_token) {
                 // Successful sign in.
-                $location.path("/home");
-
                 gapi.client.load('plus', 'v1').then(function() {
                     gapi.client.plus.people.get({
                         userId: 'me'
@@ -60,6 +66,7 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$l
                                             $rootScope.user = data;
                                         });
                                 }
+                                $location.path('/home');
                             })
                             .error(function(data, status, headers, config) {
                                 console.log(data);
@@ -97,6 +104,10 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$l
 
 rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', '$location',
     function($scope, $http, $rootScope, $location) {
+        if ($scope.isLoggedIn() === false) {
+            $location.path('/');
+        }
+
         var socket = io();
         var map;
 
@@ -157,9 +168,9 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', '$
         $scope.search = function() {
             var query = {};
             query.maxDistance = $scope.radius; // search radius in miles
-            $rootScope.createLocationFromAddress($scope.source, false, function(location) {
+            $scope.createLocationFromAddress($scope.source, false, function(location) {
                 query.source = location;
-                $rootScope.createLocationFromAddress($scope.destination, false, function(location) {
+                $scope.createLocationFromAddress($scope.destination, false, function(location) {
                     query.destination = location;
                     console.log('src: ' + query.source.loc + ' dst: ' + query.destination.loc);
                     $http.post('/api/ride/find/', query)
@@ -182,28 +193,32 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', '$
 ]);
 
 
-rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
-    function($scope, $rootScope, $http) {
+rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http', '$location',
+    function($scope, $rootScope, $http, $location) {
+        if ($scope.isLoggedIn() === false) {
+            $location.path('/');
+        }
+
         var socket = io();
 
         $scope.createRide = function() {
             var source, destination, googleid;
-            $rootScope.createLocationFromAddress($scope.source, true, function(location) {
+            $scope.createLocationFromAddress($scope.source, true, function(location) {
                 source = location;
-                $rootScope.createLocationFromAddress($scope.destination, true, function(location) {
+                $scope.createLocationFromAddress($scope.destination, true, function(location) {
                     destination = location;
 
                     $http.post('/api/ride/', {
-                        source: source._id,
-                        destination: destination._id,
-                        dateTime: Date.now(),
-                        availableSeats: $scope.availableSeats,
-
-                        owner: $rootScope.user._id,
-                    }).success(function(data, status, headers, config) {
-                        console.log("NEW RIDE ADDED");
-                        socket.emit("add ride");
-                    });
+                            source: source._id,
+                            destination: destination._id,
+                            dateTime: Date.now(),
+                            availableSeats: $scope.availableSeats,
+                            owner: $scope.user._id,
+                        })
+                        .success(function(data, status, headers, config) {
+                            console.log("NEW RIDE ADDED");
+                            socket.emit("add ride");
+                        });
                 });
             });
         };
