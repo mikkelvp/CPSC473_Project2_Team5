@@ -7,7 +7,7 @@ var rideshareControllers = angular.module('rideshareControllers', [])
             }, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (saveToDb === true) {
-                        $http.post('http://localhost:3000/api/location', {
+                        $http.post('/api/location', {
                                 loc: [results[0].geometry.location.A,
                                     results[0].geometry.location.F
                                 ],
@@ -45,7 +45,7 @@ rideshareControllers.controller('SplashScreenCtrl', ['$scope', '$rootScope', '$l
                     gapi.client.plus.people.get({
                         userId: 'me'
                     }).execute(function(user) {
-                        $http.get('http://localhost:3000/api/person/googleid/' + user.id)
+                        $http.get('/api/person/googleid/' + user.id)
                             .success(function(data, status, headers, config) {
                                 console.log(data);
                                 $rootScope.user = data;
@@ -101,8 +101,9 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', '$
         var map;
 
         $scope.rides = [];
+        $scope.radius = 5;
 
-        $http.get('http://localhost:3000/api/ride/').success(function(data, status, headers, config) {
+        $http.get('/api/ride/').success(function(data, status, headers, config) {
             data.forEach(function(ride) {
                 $scope.rides.push("Ride " + ($scope.rides.length + 1));
             });
@@ -155,7 +156,7 @@ rideshareControllers.controller('HomeCtrl', ['$scope', '$http', '$rootScope', '$
 
         $scope.search = function() {
             var query = {};
-            query.maxDistance = 2; // search radius in miles - $scope.maxDistance;
+            query.maxDistance = $scope.radius; // search radius in miles
             $rootScope.createLocationFromAddress($scope.source, false, function(location) {
                 query.source = location;
                 $rootScope.createLocationFromAddress($scope.destination, false, function(location) {
@@ -192,7 +193,7 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
                 $rootScope.createLocationFromAddress($scope.destination, true, function(location) {
                     destination = location;
 
-                    $http.post('http://localhost:3000/api/ride/', {
+                    $http.post('/api/ride/', {
                         source: source._id,
                         destination: destination._id,
                         dateTime: Date.now(),

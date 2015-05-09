@@ -100,3 +100,7 @@ body {
     padding: 0;
     height: 400px;
 }
+
+#radius {
+    width: 40px;
+}
