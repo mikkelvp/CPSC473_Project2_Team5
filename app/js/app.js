@@ -3,12 +3,12 @@ var rideshareApp = angular.module('rideshareApp', ['ngRoute', 'rideshareControll
 rideshareApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'views/splashScreen.html',
-            controller: 'SplashScreenCtrl'
+            templateUrl: 'views/login.html',
+            controller: 'loginCtrl'
         })
         .when('/home', {
             templateUrl: 'views/home.html',
-            controller: 'HomeCtrl'
+            controller: 'homeCtrl'
         })
         .when('/result', {
             templateUrl: 'views/searchResults.html',
@@ -16,7 +16,11 @@ rideshareApp.config(['$routeProvider', function($routeProvider) {
         })
         .when('/newRide', {
             templateUrl: 'views/newRide.html',
-            controller: 'NewRideCtrl'
+            controller: 'newRideCtrl'
+        })
+        .when('/myRides', {
+            templateUrl: 'views/myRides.html',
+            controller: 'myRidesCtrl'
         })
         .when('/404', {
             templateUrl: 'views/404.html',
