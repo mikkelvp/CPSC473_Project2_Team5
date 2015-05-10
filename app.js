@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-
 var location = require('./routes/location');
 var person = require('./routes/person');
 var ride = require('./routes/ride');
@@ -12,10 +11,12 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(express.static(__dirname + "/app"));
-
 app.use('/api/location', location);
 app.use('/api/person', person);
 app.use('/api/ride', ride);
+app.use(function(req, res) {
+    res.sendFile(__dirname + '/app/index.html');
+});
 
 // error handlers
 
