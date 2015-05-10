@@ -1,6 +1,6 @@
 var rideshareApp = angular.module('rideshareApp', ['ngRoute', 'rideshareControllers']);
 
-rideshareApp.config(['$routeProvider', function($routeProvider) {
+rideshareApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'views/login.html',
@@ -29,4 +29,7 @@ rideshareApp.config(['$routeProvider', function($routeProvider) {
         .otherwise({
             redirectTo: '/404'
         });
+
+    // use the HTML5 History API
+    $locationProvider.html5Mode(true);
 }]);
