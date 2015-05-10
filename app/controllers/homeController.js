@@ -1,11 +1,13 @@
-rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$rootScope', '$location',
-    function($scope, $http, $rootScope, $location) {
+rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$location',
+    function($scope, $http, $location) {
         if ($scope.isLoggedIn() === false) {
             $location.path('/');
         }
 
         var socket = io();
         var map;
+
+        //$scope.searchResults = sessionStorage.searchResults;
 
         $('li').removeClass('active');
         $('li:first-child').addClass('active');
@@ -74,19 +76,14 @@ rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$rootScope', '$
                     console.log('src: ' + query.source.loc + ' dst: ' + query.destination.loc);
                     $http.post('/api/ride/find/', query)
                         .success(function(data, status, headers, config) {
-                            console.log(data);
-                            $rootScope.searchResults = data;
+                            //console.log("data: "+data);
+                            //rides.add(data);
+                            sessionStorage.searchResults = JSON.stringify(data);
+                            console.log(JSON.parse(sessionStorage.searchResults));
                             $location.path('/result');
                         });
                 });
             });
-
-
         };
-
-        socket.on("add ride", function() {
-            // $scope.rides.push(ride);
-            console.log("New ride added!");
-        });
     }
 ]);

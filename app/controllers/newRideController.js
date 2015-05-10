@@ -24,8 +24,9 @@ rideshareControllers.controller('newRideCtrl', ['$scope', '$rootScope', '$http',
                             owner: $scope.user._id,
                         })
                         .success(function(data, status, headers, config) {
-                            console.log("NEW RIDE ADDED");
-                            socket.emit("add ride");
+                            console.log("New ride: ");
+                            console.log(data);
+                            socket.emit("new ride", data);
                         });
                 });
             });

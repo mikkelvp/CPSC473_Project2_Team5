@@ -384,8 +384,13 @@ app.put(path + '/ride/:ride_id', function(req, res) {
 io.on("connection", function(socket) {
     console.log("User has connected");
 
-    socket.on("add ride", function() {
-        console.log("Adding ride");
-        socket.emit("new ride");
+    socket.on("disconnect", function(){
+        console.log("User has disconnected");
+    });
+
+    socket.on("new ride", function(ride) {
+        console.log("Adding ride: ");
+        console.log(ride);
+        socket.emit("new ride", ride);
     });
 });
