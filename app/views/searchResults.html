@@ -14,7 +14,7 @@
                 <td>{{ ride.dateTime | date:'MM/dd h:mma' }}</td>
                 <td>{{ ride.source.address }}</td>
                 <td>{{ ride.destination.address }}</td>
-                <td>{{ ride.availableSeats }}</td>
+                <td>{{ ride.availableSeats - ride.riders.length }}</td>
             </tr>
         </tbody>
     </table>

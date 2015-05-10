@@ -33,3 +33,18 @@ rideshareApp.config(['$routeProvider', '$locationProvider', function($routeProvi
     // use the HTML5 History API
     $locationProvider.html5Mode(true);
 }]);
+
+// directive from http://stackoverflow.com/a/17472118
+rideshareApp.directive('ngEnter', function() {
+    return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+            if (event.which === 13) {
+                scope.$apply(function() {
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});

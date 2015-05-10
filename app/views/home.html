@@ -5,21 +5,21 @@
             <h1>Search for a ride</h1>
             <p>
                 <div class="input-group">
-                    <input type="text" data-ng-model="source" class="form-control" placeholder="Start address">
+                    <input type="text" data-ng-model="source" data-ng-enter="search()" class="form-control" placeholder="Start address">
                     <span class="input-group-btn">
                     <button class="btn btn-default" data-ng-click="getCurrentDestination()">Current location</button>
                     </span>
                 </div>
             </p>
             <p>
-                <input type="text" data-ng-model="destination" class="form-control" placeholder="Destination address">
+                <input type="text" data-ng-model="destination" data-ng-enter="search()" class="form-control" placeholder="Destination address">
             </p>
             <p>
-                <input type="text" data-ng-model="dateTime" class="form-control" placeholder="Datetime">
+                <input type="text" data-ng-model="dateTime" data-ng-enter="search()" class="form-control" placeholder="Datetime">
             </p>
             <p>
                 <label for="radius">Search radius in miles: </label>
-                <input data-ng-model="radius" id="radius" type="number">
+                <input data-ng-model="radius" data-ng-enter="search()" id="radius" type="number">
             </p>
             <p>
                 <button id="search" class="btn btn-success" data-ng-click="search()">Search</button>

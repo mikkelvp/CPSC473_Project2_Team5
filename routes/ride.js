@@ -19,14 +19,25 @@ router.get('/', function(req, res) {
 // Get ride by id
 router.get('/:ride_id', function(req, res) {
     Ride.findById(req.params.ride_id, function(err, ride) {
-        if (ride) {
-            res.json(ride);
-        } else {
+        if (err) {
             console.log(err);
             res.json({
                 err: err
             });
         }
+        res.json(ride);
+    });
+});
+
+// Get all rides with person as owner
+router.get('/find/:person_id', function(req, res) {
+    Ride.find({
+        owner: req.params.person_id
+    }).populate('source').populate('destination').exec(function(err, docs) {
+        if (err) {
+            return res.json(500, err);
+        }
+        res.json(docs);
     });
 });
 

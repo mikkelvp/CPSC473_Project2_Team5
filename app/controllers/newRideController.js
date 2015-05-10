@@ -26,6 +26,7 @@ rideshareControllers.controller('newRideCtrl', ['$scope', '$rootScope', '$http',
                         .success(function(data, status, headers, config) {
                             console.log("NEW RIDE ADDED");
                             socket.emit("add ride");
+                            $location.path('/myRides'); //make it redirect to details page of ride later
                         });
                 });
             });
