@@ -1,4 +1,4 @@
-var rideshareApp = angular.module('rideshareApp', ['ngRoute', 'rideshareControllers']);
+var rideshareApp = angular.module('rideshareApp', ['ngRoute', 'rideshareControllers', 'ui.bootstrap.datetimepicker']);
 
 rideshareApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider

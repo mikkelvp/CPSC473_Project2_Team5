@@ -195,9 +195,8 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
                     $http.post('http://localhost:3000/api/ride/', {
                         source: source._id,
                         destination: destination._id,
-                        dateTime: Date.now(),
+                        dateTime: $scope.data.date,
                         availableSeats: $scope.availableSeats,
-
                         owner: $rootScope.user._id,
                     }).success(function(data, status, headers, config) {
                         console.log("NEW RIDE ADDED");
@@ -230,20 +229,6 @@ rideshareControllers.controller('NewRideCtrl', ['$scope', '$rootScope', '$http',
                 });
             });
         };
-
-        $scope.getDateTime = function() {
-            $("#dateTimePicker").datetimepicker({
-                defaultDate: "05/06/2015"
-                    /*,
-                                  disabledDates: [
-                                      moment("12/25/2013"),
-                                      new Date(2013, 11 - 1, 21),
-                                      "11/22/2013 00:53"
-                                  ]*/
-            });
-        };
-
-        $scope.$on("$viewContentLoaded", $scope.getDateTime());
     }
 ]);
 

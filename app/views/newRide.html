@@ -13,11 +13,14 @@
             <input type="text" data-ng-model="destination" class="form-control" placeholder="Destination address">
         </p>
 				<p>
-					<div class="input-group date" id="dateTimePicker">
-							<input type="text" class="form-control" />
-							<span class="input-group-addon" ng-click="getDateTime()">
-									<span class="glyphicon glyphicon-calendar"></span>
-							</span>
+					<div class="input-group dropdown">
+						<input type="text" class="form-control" value="{{ data.date | date:'yyyy-MM-dd HH:mm' }}" placeholder="Date & Time" disabled/>
+						<span class="input-group-addon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="">
+								<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							<datetimepicker data-ng-model="data.date" data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle' }"></datetimepicker>
+						</ul>
 					</div>
 				</p>
         <p>
