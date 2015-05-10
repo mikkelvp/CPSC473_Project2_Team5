@@ -1,6 +1,6 @@
 var rideshareApp = angular.module('rideshareApp', ['ngRoute', 'rideshareControllers']);
 
-rideshareApp.config(['$routeProvider', function($routeProvider) {
+rideshareApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'views/login.html',
@@ -29,4 +29,22 @@ rideshareApp.config(['$routeProvider', function($routeProvider) {
         .otherwise({
             redirectTo: '/404'
         });
+
+    // use the HTML5 History API
+    $locationProvider.html5Mode(true);
 }]);
+
+// directive from http://stackoverflow.com/a/17472118
+rideshareApp.directive('ngEnter', function() {
+    return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+            if (event.which === 13) {
+                scope.$apply(function() {
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});

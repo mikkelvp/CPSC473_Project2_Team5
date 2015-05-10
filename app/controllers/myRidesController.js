@@ -7,5 +7,9 @@ rideshareControllers.controller('myRidesCtrl', ['$scope', '$rootScope', '$locati
         $('li').removeClass('active');
         $('li:nth-child(2)').addClass('active');
 
+        $http.get('/api/ride/find/' + $scope.user._id)
+            .success(function(data, status, headers, config) {
+                $scope.myRides = data;
+            });
     }
 ]);
