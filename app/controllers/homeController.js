@@ -7,8 +7,6 @@ rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$location',
         var socket = io();
         var map;
 
-        //$scope.searchResults = sessionStorage.searchResults;
-
         $('li').removeClass('active');
         $('li:first-child').addClass('active');
 
@@ -73,6 +71,7 @@ rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$location',
                 query.source = location;
                 $scope.createLocationFromAddress($scope.destination, false, function(location) {
                     query.destination = location;
+                    sessionStorage.query = JSON.stringify(query);
                     console.log('src: ' + query.source.loc + ' dst: ' + query.destination.loc);
                     $http.post('/api/ride/find/', query)
                         .success(function(data, status, headers, config) {

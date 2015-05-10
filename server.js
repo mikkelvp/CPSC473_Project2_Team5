@@ -391,6 +391,6 @@ io.on("connection", function(socket) {
     socket.on("new ride", function(ride) {
         console.log("Adding ride: ");
         console.log(ride);
-        socket.emit("new ride", ride);
+        socket.broadcast.emit("new ride", ride);
     });
 });

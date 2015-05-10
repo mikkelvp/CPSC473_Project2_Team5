@@ -1,15 +1,16 @@
-rideshareControllers.controller('searchResultsCtrl', ['$scope','$http', // 'rides',
+rideshareControllers.controller('searchResultsCtrl', ['$scope','$http',
     function($scope, $http) {
         var socket = io();
 
+        var query = JSON.parse(sessionStorage.query);
         $scope.searchResults = JSON.parse(sessionStorage.searchResults);
 
-        console.log($scope.searchResults[0]);
-
         socket.on("new ride", function(ride){
-            console.log("Adding ride to rootScope");
-            $scope.searchResults.push(ride);
+            $http.post('/api/ride/find/', query)
+                        .success(function(data, status, headers, config) {
+                            $scope.searchResults = data;
+                            sessionStorage.searchResults = JSON.stringify(data);
+                        });
         });
-
     }
 ]);
