@@ -122,6 +122,28 @@ router.post('/', function(req, res) {
     });
 });
 
+// Add person to riders
+router.put('/add', function(req, res) {
+    Ride.findById(req.body.rideId, function(err, ride) {
+        if (err) {
+            res.json({
+                err: err
+            });
+        }
+        ride.riders.push(req.body.personId);
+        ride.save(function(err, result) {
+            if (err) {
+                console.log(err);
+                res.json({
+                    err: err
+                });
+            } else {
+                res.json(result);
+            }
+        });
+    });
+});
+
 // Update ride
 // Owner can not be updated
 router.put('/:ride_id', function(req, res) {
