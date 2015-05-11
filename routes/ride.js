@@ -21,7 +21,7 @@ router.get('/:ride_id', function(req, res) {
     Ride.findById(req.params.ride_id)
         .populate('source')
         .populate('destination')
-        .populate('riders.person')
+        .populate('riders.person') // y u no work?
         .exec(function(err, ride) {
             if (err) {
                 res.json(500, err);
@@ -39,7 +39,21 @@ router.get('/find/:person_id', function(req, res) {
         .populate('destination')
         .exec(function(err, docs) {
             if (err) {
-                return res.json(500, err);
+                return res.status(500).json(err);
+            }
+            res.json(docs);
+        });
+});
+
+// Get all rides with person as rider
+router.get('/rider/:person_id', function(req, res) {
+    Ride.find({
+            riders: req.params.person_id
+        }).populate('source')
+        .populate('destination')
+        .exec(function(err, docs) {
+            if (err) {
+                return res.status(500).json(err);
             }
             res.json(docs);
         });
