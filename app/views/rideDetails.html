@@ -1,0 +1,43 @@
+<div class="well">
+    <h1>Ride details</h1>
+    <p>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Start</span>
+            <input name="source" type="text" data-ng-model="ride.source.address" readonly="true" class="form-control">
+        </div>
+    </p>
+    <p>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Destination</span>
+            <input name="destination" type="text" data-ng-model="ride.destination.address" readonly="true" class="form-control">
+        </div>
+    </p>
+    <p>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Time</span>
+            <input name="dateTime" type="text" data-ng-model="ride.dateTime | date:'MM/dd h:mma'" readonly="true" class="form-control">
+        </div>
+    </p>
+    <p>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Estimated time</span>
+            <input name="estimatedTime" type="text" data-ng-model="ride.estimatedTime" readonly="true" class="form-control">
+        </div>
+    </p>
+    <p>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Available seats</span>
+            <input name="availableSeats" type="text" data-ng-model="ride.availableSeats" readonly="true" class="form-control">
+        </div>
+    </p>
+    <p>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Notes</span>
+            <input name="notes" type="text" data-ng-model="ride.notes" readonly="true" class="form-control">
+        </div>
+    </p>
+    <p>
+        <button class="btn btn-success" data-ng-click="">Open chat</button>
+        <button class="btn btn-danger" data-ng-click="">Leave ride</button>
+    </p>
+</div>

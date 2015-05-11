@@ -22,6 +22,10 @@ rideshareApp.config(['$routeProvider', '$locationProvider', function($routeProvi
             templateUrl: 'views/myRides.html',
             controller: 'myRidesCtrl'
         })
+        .when('/ride', {
+            templateUrl: 'views/rideDetails.html',
+            controller: 'rideDetailsCtrl'
+        })
         .when('/404', {
             templateUrl: 'views/404.html',
             controller: ''

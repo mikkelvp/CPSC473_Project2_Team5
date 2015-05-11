@@ -131,14 +131,16 @@ router.put('/add', function(req, res) {
             });
         }
         ride.riders.push(req.body.personId);
-        ride.save(function(err, result) {
+        ride.save(function(err, ride) {
             if (err) {
                 console.log(err);
                 res.json({
                     err: err
                 });
             } else {
-                res.json(result);
+                Ride.findOne(ride).populate('source').populate('destination').populate('riders').exec(function(err, ride) {
+                    res.json(ride);
+                });
             }
         });
     });
