@@ -15,7 +15,12 @@
                 <input type="text" data-ng-model="destination" data-ng-enter="search()" class="form-control" placeholder="Destination address">
             </p>
             <p>
-                <input type="text" data-ng-model="dateTime" data-ng-enter="search()" class="form-control" placeholder="Datetime">
+                <div class="input-group date" id="dateTimePicker">
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon" ng-click="getDateTime()">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
             </p>
             <p>
                 <label for="radius">Search radius in miles: </label>
