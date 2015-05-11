@@ -56,7 +56,7 @@ io.on("connection", function(socket) {
         var userName = chat.user;
         socket.join(chat.room);
         console.log("User "+chat.user+" has joined chat "+chat.room);
-        socket.emit("join chat", chat);
+        socket.to(chat.room).emit("join chat", chat);
     });
 
     socket.on("chat message", function(msg){

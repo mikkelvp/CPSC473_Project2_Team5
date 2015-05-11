@@ -3,16 +3,29 @@ rideshareControllers.controller('rideChatCtrl', ['$scope','$http', '$rootScope',
         var socket = io();
         var chatRoom = $rootScope.ride._id;
         var userName = $rootScope.user.givenName+$rootScope.user.familyName.charAt(0);
+        var status;
         $scope.messages = [];
         $scope.users = [];
 
         $scope.userName = userName;
         $scope.chatRoom = chatRoom;
 
-        socket.emit("join chat", {user: userName, room: chatRoom});
+
+        if($rootScope.ride.owner === $rootScope.user._id){
+            $scope.users.push("Me (Rider)");
+            $scope.$apply();
+            status = " (Rider)";
+        } else {
+            $scope.users.push("Me (Rider)");
+            $scope.$apply();
+            status = " (Rider)";
+        }
+        
+        socket.emit("join chat", {user: userName, room: chatRoom, status: status});
 
         $scope.send = function(){
             socket.emit("chat message", {text: $scope.message, user: $scope.userName, room: chatRoom});
+            $scope.messages.push("Me: " + $scope.message);
             $scope.message = "";
         };
 
@@ -20,11 +33,13 @@ rideshareControllers.controller('rideChatCtrl', ['$scope','$http', '$rootScope',
             console.log("Message received");
             console.log(msg);
             $scope.messages.push(msg.user+": "+msg.text);
+            $scope.$apply(); //required to make the list update
         });
 
         socket.on("join chat", function(chat){
-            $scope.users.push(chat.user);
+            $scope.users.push(chat.user+chat.status);
             $scope.messages.push(chat.user+"has joined chat");
+            $scope.$apply(); //required to make the list update
         });
     }
 ]);
