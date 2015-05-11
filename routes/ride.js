@@ -18,27 +18,31 @@ router.get('/', function(req, res) {
 
 // Get ride by id
 router.get('/:ride_id', function(req, res) {
-    Ride.findById(req.params.ride_id, function(err, ride) {
-        if (err) {
-            console.log(err);
-            res.json({
-                err: err
-            });
-        }
-        res.json(ride);
-    });
+    Ride.findById(req.params.ride_id)
+        .populate('source')
+        .populate('destination')
+        .populate('riders.person')
+        .exec(function(err, ride) {
+            if (err) {
+                res.json(500, err);
+            }
+            res.json(ride);
+        });
 });
+
 
 // Get all rides with person as owner
 router.get('/find/:person_id', function(req, res) {
     Ride.find({
-        owner: req.params.person_id
-    }).populate('source').populate('destination').exec(function(err, docs) {
-        if (err) {
-            return res.json(500, err);
-        }
-        res.json(docs);
-    });
+            owner: req.params.person_id
+        }).populate('source')
+        .populate('destination')
+        .exec(function(err, docs) {
+            if (err) {
+                return res.json(500, err);
+            }
+            res.json(docs);
+        });
 });
 
 // search for rides within a radius (maxDistance)
@@ -130,6 +134,7 @@ router.put('/add', function(req, res) {
                 err: err
             });
         }
+
         ride.riders.push(req.body.personId);
         ride.save(function(err, ride) {
             if (err) {
@@ -138,7 +143,7 @@ router.put('/add', function(req, res) {
                     err: err
                 });
             } else {
-                Ride.findOne(ride).populate('source').populate('destination').populate('riders').exec(function(err, ride) {
+                Ride.findOne(ride).populate('source').populate('destination').populate('riders.Person').exec(function(err, ride) {
                     res.json(ride);
                 });
             }

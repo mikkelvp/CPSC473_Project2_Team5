@@ -12,5 +12,10 @@ rideshareControllers.controller('myRidesCtrl', ['$scope', '$rootScope', '$locati
                 $scope.myRides = data;
             });
 
+        $scope.rideDetails = function(ride) {
+            $rootScope.ride = ride;
+            $location.path('/ride');
+        }
+
     }
 ]);

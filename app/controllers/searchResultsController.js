@@ -9,12 +9,11 @@ rideshareControllers.controller('searchResultsCtrl', ['$scope', '$http', '$rootS
         $scope.joinRide = function(id) {
             console.log("Joining chat");
             $location.path('/chat');
-            console.log('id: ' + id);
+
             $http.put('/api/ride/add', {
                 rideId: id,
-                userId: $scope.user._id
+                personId: $scope.user._id
             }).success(function(data, status, headers, config) {
-                console.log(data);
                 $rootScope.ride = data;
                 $location.path('/ride');
             });
