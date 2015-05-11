@@ -44,6 +44,11 @@ io.on("connection", function(socket) {
         console.log(ride);
         socket.broadcast.emit("new ride", ride);
     });
+
+    socket.on("join ride", function(usrRide){
+        socket.join(usrRide.rideId);
+        console.log("User "+usrRide.user+" has joined ride "+usrRide.ride);
+    });
 });
 
 /**

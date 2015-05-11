@@ -7,8 +7,8 @@ rideshareControllers.controller('searchResultsCtrl', ['$scope','$http', '$locati
         $scope.searchResults = JSON.parse(sessionStorage.searchResults);
 
         $scope.joinRide = function(id) {
-            console.log("Joining chat");
-            $location.path('/chat');
+            // console.log("Joining chat");
+            // $location.path('/chat');
             console.log('id: ' + id);
             $http.put('/api/ride/add', {
                 rideId: id,
@@ -16,6 +16,10 @@ rideshareControllers.controller('searchResultsCtrl', ['$scope','$http', '$locati
             }).success(function(data, status, headers, config) {
                 console.log(data);
                 alert('Ride joined');
+                var usrRide = {user: data.userId, ride: data.rideId};
+                console.log(usrRide);
+                socket.emit("join ride", usrRide);
+
                 //$location.path('/ride');
             });
         };
