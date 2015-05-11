@@ -104,3 +104,16 @@ body {
 #radius {
     width: 40px;
 }
+
+#chatwindow {
+    height: 350px;
+    overflow-y: scroll;
+}
+
+#online-users {
+}
+
+.chatmsg {
+    font-weight: normal;
+    padding-left: 5px;
+}
