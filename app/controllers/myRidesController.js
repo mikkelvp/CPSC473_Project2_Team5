@@ -11,5 +11,6 @@ rideshareControllers.controller('myRidesCtrl', ['$scope', '$rootScope', '$locati
             .success(function(data, status, headers, config) {
                 $scope.myRides = data;
             });
+
     }
 ]);
