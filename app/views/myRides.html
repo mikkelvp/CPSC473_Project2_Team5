@@ -8,6 +8,7 @@
                 <th>Destination</th>
                 <th>Available seats</th>
                 <th>Riders</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>
@@ -17,6 +18,9 @@
                 <td>{{ ride.destination.address }}</td>
                 <td>{{ ride.availableSeats }}</td>
                 <td>{{ ride.riders.length }}</td>
+                <td>
+                    <button class="btn btn-success" data-ng-click="rideDetails(ride)">Go</button>
+                </td>
             </tr>
         </tbody>
     </table>

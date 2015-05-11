@@ -84,5 +84,14 @@ rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$location',
                 });
             });
         };
+
+        $scope.getDateTime = function() {
+            $scope.date = new Date();
+            $("#dateTimePicker").datetimepicker({
+                defaultDate: $scope.date
+            });
+        };
+
+        $scope.$on("$viewContentLoaded", $scope.getDateTime());
     }
 ]);

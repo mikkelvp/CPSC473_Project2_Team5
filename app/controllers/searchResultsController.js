@@ -7,19 +7,13 @@ rideshareControllers.controller('searchResultsCtrl', ['$scope', '$http', '$rootS
         $scope.searchResults = JSON.parse(sessionStorage.searchResults);
 
         $scope.joinRide = function(id) {
-            // console.log("Joining chat");
-            // $location.path('/chat');
             console.log('id: ' + id);
             $http.put('/api/ride/add', {
                 rideId: id,
-                userId: $scope.user._id
+                personId: $scope.user._id
             }).success(function(data, status, headers, config) {
                 console.log(data);
                 alert('Ride joined');
-                //var name = $scope.user.givenName;
-                //var usrRide = {user: $scope.user, ride: id};
-                //console.log(usrRide);
-                //socket.emit("join ride", usrRide);
                 $rootScope.ride = data;
                 $location.path('/ride');
             });
