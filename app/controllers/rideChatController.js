@@ -12,12 +12,10 @@ rideshareControllers.controller('rideChatCtrl', ['$scope','$http', '$rootScope',
 
 
         if($rootScope.ride.owner === $rootScope.user._id){
-            $scope.users.push("Me (Rider)");
-            $scope.$apply();
-            status = " (Rider)";
+            $scope.users.push("Me (Driver)");
+            status = " (Driver)";
         } else {
             $scope.users.push("Me (Rider)");
-            $scope.$apply();
             status = " (Rider)";
         }
         
@@ -40,6 +38,12 @@ rideshareControllers.controller('rideChatCtrl', ['$scope','$http', '$rootScope',
             $scope.users.push(chat.user+chat.status);
             $scope.messages.push(chat.user+"has joined chat");
             $scope.$apply(); //required to make the list update
+            socket.emit("I'm here", {user: userName, room: chatRoom, status: status});
+        });
+
+        socket.on("I'm here", function(here){
+            $scope.users.push(here.user+here.status);
+            $scope.$apply();
         });
     }
 ]);
