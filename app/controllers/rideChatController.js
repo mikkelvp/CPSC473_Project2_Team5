@@ -1,8 +1,9 @@
 rideshareControllers.controller('rideChatCtrl', ['$scope','$http', '$rootScope',
-    function($scope, $http, $rootScope) {
+    function($scope, $http, $rootScope
+) {
         var socket = io();
-        var chatRoom = $rootScope.ride._id;
-        var userName = $rootScope.user.givenName+$rootScope.user.familyName.charAt(0);
+        var chatRoom = $scope.ride._id;
+        var userName = $scope.user.givenName+$scope.user.familyName.charAt(0);
         var status;
         $scope.messages = [];
         $scope.users = [];
@@ -11,7 +12,7 @@ rideshareControllers.controller('rideChatCtrl', ['$scope','$http', '$rootScope',
         $scope.chatRoom = chatRoom;
 
 
-        if($rootScope.ride.owner === $rootScope.user._id){
+        if($scope.ride.owner === $scope.user._id){
             $scope.users.push("Me (Rider)");
             $scope.$apply();
             status = " (Rider)";
