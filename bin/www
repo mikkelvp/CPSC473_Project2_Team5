@@ -60,7 +60,7 @@ io.on("connection", function(socket) {
     });
 
     socket.on("I'm here", function(here){
-      socket.to(here.room).emit("I'm here", here);
+      socket.broadcast.to(here.room).emit("I'm here", here);
     });
 
     socket.on("chat message", function(msg){
