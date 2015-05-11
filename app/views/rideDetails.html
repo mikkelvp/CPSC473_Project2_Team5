@@ -15,7 +15,7 @@
     <p>
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Time</span>
-            <input name="dateTime" type="text" data-ng-model="ride.dateTime | date:'MM/dd h:mma'" readonly="true" class="form-control">
+            <input name="dateTime" type="text" data-ng-model="ride.dateTime" data-ng-change="date:'MM/dd h:mma'" readonly="true" class="form-control">
         </div>
     </p>
     <p>
