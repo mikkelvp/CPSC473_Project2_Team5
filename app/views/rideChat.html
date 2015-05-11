@@ -1,9 +1,12 @@
 <div class="container-fluid">
     <div class="row">
+        
+        <!-- <span data-ng-model="userName">Username: {{ userName }}</span>
+        <span data-ng-model="chatRoom">Room: {{ chatRoom }}</span>  -->
         <div id="chat" class="col-md-7">
             <div id="chatwindow" class="row">
                 Messages will go here
-                <div class="chatmsg" data-ng-repeat="message in messages track by $index">{{ message }}</div>
+                <div class="chatmsg" data-ng-repeat="message in messages track">{{ message }}</div>
             </div>            
             <div class="row input-group">
                 <input type="text" data-ng-model="message" data-ng-enter="send()" class="form-control" placeholder="Type a message">

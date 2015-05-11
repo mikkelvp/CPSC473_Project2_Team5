@@ -16,9 +16,10 @@ rideshareControllers.controller('searchResultsCtrl', ['$scope', '$http', '$rootS
             }).success(function(data, status, headers, config) {
                 console.log(data);
                 alert('Ride joined');
-                var usrRide = {user: data.userId, ride: data.rideId};
-                console.log(usrRide);
-                socket.emit("join ride", usrRide);
+                //var name = $scope.user.givenName;
+                //var usrRide = {user: $scope.user, ride: id};
+                //console.log(usrRide);
+                //socket.emit("join ride", usrRide);
                 $rootScope.ride = data;
                 $location.path('/ride');
             });

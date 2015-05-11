@@ -46,8 +46,22 @@ io.on("connection", function(socket) {
     });
 
     socket.on("join ride", function(usrRide){
+        var userName = usrRide.user.givenName+usrRide.user.familyName.charAt(0);
         socket.join(usrRide.rideId);
-        console.log("User "+usrRide.user+" has joined ride "+usrRide.ride);
+
+        console.log("User "+userName+" has joined ride "+usrRide.ride);
+    });
+
+    socket.on("join chat", function(chat){
+        var userName = chat.user;
+        socket.join(chat.room);
+        console.log("User "+chat.user+" has joined chat "+chat.room);
+        socket.emit("join chat", chat);
+    });
+
+    socket.on("chat message", function(msg){
+        console.log("Emitting "+msg.text+" to room "+msg.room);
+        socket.to(msg.room).emit("chat message", msg);
     });
 });
 
