@@ -46,5 +46,17 @@ rideshareControllers.controller('rideChatCtrl', ['$scope','$http', '$rootScope',
             $scope.users.push(here.user+here.status);
             $scope.$apply();
         });
+
+        socket.on("leave chat", function(){
+            //indicate that someone has left
+            $scope.messages.push("A user has left");
+            $scope.$apply();
+            $scope.users = [];
+            $scope.users.push("Me"+status);
+            $scope.$apply();
+
+            //Say that you are still here
+            socket.emit("I'm here", {user: userName, room: chatRoom, status: status});
+        });  
     }
 ]);
