@@ -1,27 +1,56 @@
 <div class="well">
-    <h1>My Rides</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Start</th>
-                <th>Destination</th>
-                <th>Available seats</th>
-                <th>Riders</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr data-ng-repeat="ride in myRides">
-                <td>{{ ride.dateTime | date:'MM/dd h:mma' }}</td>
-                <td>{{ ride.source.address }}</td>
-                <td>{{ ride.destination.address }}</td>
-                <td>{{ ride.availableSeats }}</td>
-                <td>{{ ride.riders.length }}</td>
-                <td>
-                    <button class="btn btn-success" data-ng-click="rideDetails(ride)">Go</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <h1>Joined Rides</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Start</th>
+                    <th>Destination</th>
+                    <th>Available seats</th>
+                    <th>Riders</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="ride in joinedRides">
+                    <td>{{ ride.dateTime | date:'MM/dd h:mma' }}</td>
+                    <td>{{ ride.source.address }}</td>
+                    <td>{{ ride.destination.address }}</td>
+                    <td>{{ ride.availableSeats }}</td>
+                    <td>{{ ride.riders.length }}</td>
+                    <td>
+                        <button class="btn btn-success" data-ng-click="rideDetails(ride)">Go</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h1>Created Rides</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Start</th>
+                    <th>Destination</th>
+                    <th>Available seats</th>
+                    <th>Riders</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="ride in myRides">
+                    <td>{{ ride.dateTime | date:'MM/dd h:mma' }}</td>
+                    <td>{{ ride.source.address }}</td>
+                    <td>{{ ride.destination.address }}</td>
+                    <td>{{ ride.availableSeats }}</td>
+                    <td>{{ ride.riders.length }}</td>
+                    <td>
+                        <button class="btn btn-success" data-ng-click="rideDetails(ride)">Go</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

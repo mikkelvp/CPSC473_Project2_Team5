@@ -12,6 +12,11 @@ rideshareControllers.controller('myRidesCtrl', ['$scope', '$rootScope', '$locati
                 $scope.myRides = data;
             });
 
+        $http.get('/api/ride/rider/' + $scope.user._id)
+            .success(function(data, status, headers, config) {
+                $scope.joinedRides = data;
+            });
+
         $scope.rideDetails = function(ride) {
             $rootScope.ride = ride;
             $location.path('/ride');
