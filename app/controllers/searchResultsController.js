@@ -1,6 +1,6 @@
+rideshareControllers.controller('searchResultsCtrl', ['$scope', '$http', '$rootScope', '$location',
+    function($scope, $http, $rootScope, $location) {
 
-rideshareControllers.controller('searchResultsCtrl', ['$scope','$http', '$location',
-    function($scope, $http, $location) {
         var socket = io();
 
         var query = JSON.parse(sessionStorage.query);
@@ -19,8 +19,8 @@ rideshareControllers.controller('searchResultsCtrl', ['$scope','$http', '$locati
                 var usrRide = {user: data.userId, ride: data.rideId};
                 console.log(usrRide);
                 socket.emit("join ride", usrRide);
-
-                //$location.path('/ride');
+                $rootScope.ride = data;
+                $location.path('/ride');
             });
         };
 
