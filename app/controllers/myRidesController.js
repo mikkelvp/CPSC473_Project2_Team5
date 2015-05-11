@@ -4,8 +4,6 @@ rideshareControllers.controller('myRidesCtrl', ['$scope', '$rootScope', '$locati
             $location.path('/');
         }
 
-        $scope.myRides = [];
-
         $('li').removeClass('active');
         $('li:nth-child(2)').addClass('active');
 
@@ -14,10 +12,6 @@ rideshareControllers.controller('myRidesCtrl', ['$scope', '$rootScope', '$locati
                 $scope.myRides = data;
                 console.log("My Rides:");
                 console.log(data);
-                if($scope.myRides.length === 0){
-                    alert("You have not created any rides");
-                    $location.path('/newRide');
-                }
             });        
 
         $http.get('/api/ride/rider/' + $scope.user._id)
