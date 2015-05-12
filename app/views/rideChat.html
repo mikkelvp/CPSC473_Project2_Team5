@@ -5,7 +5,7 @@
         <span data-ng-model="chatRoom">Room: {{ chatRoom }}</span>  -->
         <div id="chat" class="col-md-7">
             <div id="chatwindow" class="row">
-                Messages will go here
+                Messages:
                 <div class="chatmsg" data-ng-repeat="message in messages track by $index">{{ message }}</div>
             </div>            
             <div class="row input-group">
