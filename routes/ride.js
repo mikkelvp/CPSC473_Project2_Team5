@@ -24,7 +24,7 @@ router.get('/:ride_id', function(req, res) {
         .populate('riders.person') // y u no work?
         .exec(function(err, ride) {
             if (err) {
-                res.json(500, err);
+                res.status(500).json(err);
             }
             res.json(ride);
         });
