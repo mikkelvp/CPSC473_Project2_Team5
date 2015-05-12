@@ -16,9 +16,10 @@
                 <td>{{ ride.source.address }}</td>
                 <td>{{ ride.destination.address }}</td>
                 <td>{{ ride.availableSeats - ride.riders.length }}</td>
-                <td>
-                    <button class="btn btn-info" ng-click="joinRide(ride._id)">Join</button>
+                <td >
+                    <button class="btn btn-info" ng-click="joinRide(ride)">Join</button>
                 </td>
+                
             </tr>
         </tbody>
     </table>
