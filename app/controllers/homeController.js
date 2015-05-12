@@ -13,12 +13,6 @@ rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$location',
         $scope.rides = [];
         $scope.radius = 5;
 
-        $http.get('/api/ride/').success(function(data, status, headers, config) {
-            data.forEach(function(ride) {
-                $scope.rides.push("Ride " + ($scope.rides.length + 1));
-            });
-        });
-
         $scope.$on("$viewContentLoaded", function() {
             var mapCanvas = document.getElementById('map-canvas');
             var mapOptions = {
@@ -75,8 +69,6 @@ rideshareControllers.controller('homeCtrl', ['$scope', '$http', '$location',
                     console.log('src: ' + query.source.loc + ' dst: ' + query.destination.loc);
                     $http.post('/api/ride/find/', query)
                         .success(function(data, status, headers, config) {
-                            //console.log("data: "+data);
-                            //rides.add(data);
                             sessionStorage.searchResults = JSON.stringify(data);
                             console.log(JSON.parse(sessionStorage.searchResults));
                             $location.path('/result');
