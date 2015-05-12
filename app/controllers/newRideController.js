@@ -22,6 +22,8 @@ rideshareControllers.controller('newRideCtrl', ['$scope', '$rootScope', '$http',
                             dateTime: $scope.date,
                             availableSeats: $scope.availableSeats,
                             owner: $scope.user._id,
+                            notes: $scope.notes,
+                            estimatedTime: $scope.estimatedTime
                         })
                         .success(function(data, status, headers, config) {
                             console.log("New ride: ");
