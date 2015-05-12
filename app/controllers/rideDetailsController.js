@@ -20,7 +20,10 @@ rideshareControllers.controller('rideDetailsCtrl', ['$scope', '$rootScope', '$lo
 
         $scope.leaveRide = function(){
             if(userid === ride.owner){
-                alert("This ride will be deleted");
+                $http.post('/api/ride/remove/'+ride._id)
+                .success(function(data, status, headers, config) {
+                    alert("This ride will be deleted");
+                });                
             } else {
                 var updatedRiders = ride.riders;
                 for(var i = updatedRiders.length - 1; i >= 0; i--) {
@@ -32,8 +35,7 @@ rideshareControllers.controller('rideDetailsCtrl', ['$scope', '$rootScope', '$lo
                     riders: updatedRiders
                 }).success(function(data, status, headers, config) {
                     alert("You will be removed from this ride"); 
-                });
-                               
+                });                               
             }
             $location.path("myRides");
         };

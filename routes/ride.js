@@ -140,6 +140,19 @@ router.post('/', function(req, res) {
     });
 });
 
+//remove ride with given id
+router.post('/remove/:rideid', function(req,res){
+    rideid = req.params.rideid;
+    Ride.remove({_id: rideid}, function(err){
+        if(err){
+            console.log(err);
+            res.send('ERROR');
+        } else {
+            res.send("Ride deleted");
+        }
+    });
+});
+
 // Add person to riders
 router.put('/add', function(req, res) {
     Ride.findById(req.body.rideId, function(err, ride) {
